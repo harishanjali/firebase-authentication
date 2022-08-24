@@ -1,0 +1,11 @@
+.link{
+    text-decoration: none;
+    color: #fff;
+}
+.link:hover{
+    color:goldenrod;
+}
+.logout{
+    margin-top:0;
+    padding-top:0;
+}
