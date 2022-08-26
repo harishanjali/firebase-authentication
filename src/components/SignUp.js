@@ -5,12 +5,16 @@ import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import {auth} from '../firebase.js'
+import {app,database} from '../config/firebaseConfig'
+import {auth} from '../firebase.js';
+import {collection,addDoc} from 'firebase/firestore'
+// import { onAuthStateChanged } from "firebase/auth";
 // import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
     const [state,setState] = useState({password:'',cpassword:'',email:''});
+    const collectionRef = collection(database,'users');
     const {password,cpassword,email} = state;
     // const apiKey = process.env.REACT_APP_API_KEY
     const navigate = useNavigate();
@@ -18,13 +22,28 @@ export default function SignUp() {
         let name = e.target.name;
         setState({...state,[name]:e.target.value})
     }
+    const addData = async()=>{
+      try{
+        const result =  await addDoc(collectionRef,{
+          email:email,
+          password:password
+        })
+        // alert('Data added');
+        // console.log('added');
+      }catch(err){
+        alert(err.message)
+      }
+    }
     const handleSubmit = async(e)=>{
       e.preventDefault();
       if(password!==cpassword){
         alert('Passwords do not match');
       }
+
       try{
         const result = await createUserWithEmailAndPassword(auth,email,password)
+        addData();
+        alert('Successfully registered, please login to continue');
         navigate('/');
         // console.log(result);
       }catch(error){

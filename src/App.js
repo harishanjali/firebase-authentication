@@ -14,14 +14,13 @@ import {updateLoginStatus} from './app/reducers/reducer';
 function App() {
   const dispatch = useDispatch()
   useEffect(()=>{
-    onAuthStateChanged(auth,user=>{
-      if(user){
-        dispatch(updateLoginStatus(true))
-      }
-      else{
-        dispatch(updateLoginStatus(false))
-      }
-    })
+    const token = (localStorage.getItem('token'));
+    if(token!==null){
+      dispatch(updateLoginStatus(true))
+    }
+    else{
+      dispatch(updateLoginStatus(false))
+    }
   },[])
   return (
    <Router>

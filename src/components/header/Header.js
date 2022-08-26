@@ -13,15 +13,15 @@ import {auth} from '../../firebase';
 import './index.css';
 
 export default function Header(){
-  // const [isLoggedIn,setLoggedIn] = useState(false);
-  // console.log(apiKey)
   const isLoggedIn = useSelector(state=>state.cake.data);
-  console.log(isLoggedIn);
-  // console.log(updateLoginStatus);
+  const dispatch = useDispatch();
   const navigate = useNavigate()
   const doLogout = ()=>{
     signOut(auth)
-    navigate('/login');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
+    dispatch(updateLoginStatus(false));
+    navigate('/');
   }
   const checkLogin = ()=>{
     if(!isLoggedIn){
