@@ -39,7 +39,7 @@ export default function SignUp() {
       if(password!==cpassword){
         alert('Passwords do not match');
       }
-
+      // return;
       try{
         const result = await createUserWithEmailAndPassword(auth,email,password)
         addData();
